@@ -118,6 +118,16 @@ auto Menu (Tree *& tree)->void {
             }
             else cerr << "Error!!! Tree is already exist!!!" << endl;
             break;
+        case 7:
+            if (!tree->empty()) {
+                int value;
+                cout<< "Enter the value for searching:" << endl;
+                cin>> value;
+                if(tree->node_availability(value)) cout<< "Node exists in the tree"<< endl;
+                else cout<< "Node didn't found"<<endl;
+            }
+            else cerr<< "Error!!!Tree is empty!!!"<<endl;
+            break;
         case 8:
             cout << "Do you want to leave program? ( yes, no )" << endl;
             cin >> exit;

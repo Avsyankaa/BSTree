@@ -1,7 +1,7 @@
 #include "BSTree.hpp"
 using namespace BSTree;
 Tree:: Tree ()
-    :root {nullptr}
+:root {nullptr}
 {}
 Node:: Node (int val): data {val}, right {nullptr}, left {nullptr} {
 }
@@ -11,36 +11,36 @@ auto Tree:: empty ( ) const  -> bool {
 }
 
 auto Tree:: insert (int value) -> bool {
-if (root == nullptr) {
-root = new Node {value};
-return true;
-}
-Node * parent= root;
-               Node * curr= root;
-while ( curr != nullptr) {
-if (curr->data==value) return false;
-    if (curr->data < value) curr= curr->right;
-    else curr= curr->left;
-    if (curr!=nullptr) parent= curr;
-}
-if (parent->data< value) parent->right = new Node {value};
-else parent->left = new Node {value};
+    if (root == nullptr) {
+        root = new Node {value};
+        return true;
+    }
+    Node * parent= root;
+    Node * curr= root;
+    while ( curr != nullptr) {
+        if (curr->data==value) return false;
+        if (curr->data < value) curr= curr->right;
+        else curr= curr->left;
+        if (curr!=nullptr) parent= curr;
+    }
+    if (parent->data< value) parent->right = new Node {value};
+    else parent->left = new Node {value};
     return true;
-    }
+}
 
-    auto Tree:: print_elements (Node * curr, int  space) const ->void {
-        if (curr!=nullptr) {
-            if (curr->right!=nullptr) print_elements (curr->right, space+1);
-            for (int i=0; i< space; i++) {
-                std::cout<< "   ";
-            }
-            if ((curr->data)!=(root->data))
-                std::cout<< "--";
-            std::cout<< curr->data << std::endl;
-            if (curr->left!=nullptr)  print_elements (curr->left, space+1);
+auto Tree:: print_elements (Node * curr, int  space) const ->void {
+    if (curr!=nullptr) {
+        if (curr->right!=nullptr) print_elements (curr->right, space+1);
+        for (int i=0; i< space; i++) {
+            std::cout<< "   ";
         }
-        else std::cout<<"Tree is empty"<< std::endl;
+        if ((curr->data)!=(root->data))
+            std::cout<< "--";
+        std::cout<< curr->data << std::endl;
+        if (curr->left!=nullptr)  print_elements (curr->left, space+1);
     }
+    else std::cout<<"Tree is empty"<< std::endl;
+}
 
 auto Tree:: print () const -> void {
     print_elements (root, 0);
@@ -50,16 +50,16 @@ auto Tree:: deleting (Node *& curr) -> void {
     if (curr==nullptr) return;
     if (curr->right!=nullptr)
         deleting (curr->right);
-        if (curr-> left!= nullptr) deleting (curr->left);
-            delete curr;
-            curr = nullptr;
-        }
+    if (curr-> left!= nullptr) deleting (curr->left);
+    delete curr;
+    curr = nullptr;
+}
 
-        auto Tree:: straight_detour (Node * curr) const -> void {
-            std::cout<< curr->data<< " ";
-            if (curr->left!=nullptr) straight_detour (curr->left);
-            if (curr->right!=nullptr) straight_detour (curr->right);
-        }
+auto Tree:: straight_detour (Node * curr) const -> void {
+    std::cout<< curr->data<< " ";
+    if (curr->left!=nullptr) straight_detour (curr->left);
+    if (curr->right!=nullptr) straight_detour (curr->right);
+}
 
 auto Tree:: straight () const ->void {
     straight_detour (root);
@@ -91,9 +91,9 @@ Tree:: ~Tree() {
 
 auto Tree:: add_node (int value) -> void {
     if (!(this->insert (value)))
-{
-std::cerr << "This Node is already exist!!!" << std::endl;
-}
+    {
+        std::cerr << "This Node is already exist!!!" << std::endl;
+    }
 }
 
 auto Tree:: delete_node (int value) -> bool {
@@ -233,4 +233,13 @@ auto Tree:: download_tree_from_the_file (std::string file_name)->bool {
         this->insert (atoi( tree_string.c_str()));
     }
     return true;
+}
+auto Tree:: node_availability (int value) const -> bool {
+    Node * curr = root;
+    while (curr!=nullptr) {
+        if (curr->data==value) return true;
+        if (curr->data > value) curr=curr->left;
+        else curr=curr->right;
+    }
+    return false;
 }

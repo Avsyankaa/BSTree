@@ -10,6 +10,24 @@ auto Tree:: empty ( ) const  -> bool {
     return (root==nullptr? true : false);
 }
 
+Tree:: Tree (std::initializer_list<int> list) {
+    root=nullptr;
+    for (auto value:list) {
+        insert(value);
+    }
+}
+
+Tree:: Tree (const Tree& tree) {
+    this->root=nullptr;
+    copy(tree.root);
+}
+
+auto Tree:: copy (Node * curr) -> void {
+    insert(curr->data);
+    if (curr->left!=nullptr) copy (curr->left);
+    if (curr->right!=nullptr) copy (curr->right);
+}
+
 auto Tree:: insert (int value) -> bool {
     if (root == nullptr) {
         root = new Node {value};
@@ -61,9 +79,9 @@ auto Tree:: straight_detour (Node * curr) const -> void {
     if (curr->right!=nullptr) straight_detour (curr->right);
 }
 
-auto Tree:: straight () const ->void {
+/*auto Tree:: straight () const ->void {
     straight_detour (root);
-}
+}*/
 
 auto Tree:: back_detour (Node * curr) const -> void {
     if (curr->left!=nullptr) back_detour (curr->left);
@@ -71,9 +89,9 @@ auto Tree:: back_detour (Node * curr) const -> void {
     std::cout<< curr->data<<" ";
 }
 
-auto Tree:: back () const -> void {
+/*auto Tree:: back () const -> void {
     back_detour (root);
-}
+}*/
 
 auto Tree:: transverse_detour (Node * curr) const -> void {
     if (curr->left!=nullptr) transverse_detour (curr->left);
@@ -81,9 +99,24 @@ auto Tree:: transverse_detour (Node * curr) const -> void {
     if (curr->right!=nullptr) transverse_detour (curr->right);
 }
 
-auto Tree:: transverse () const -> void {
+/*auto Tree:: transverse () const -> void {
     transverse_detour (root);
-}
+}*/
+
+auto Tree:: print(traversal_order order) const ->void {
+
+    switch (order) {
+    case traversal_order::pre :
+        straight_detour(root);
+        break;
+    case traversal_order::in :
+        transverse_detour(root);
+        break;
+    case traversal_order::post:
+        back_detour(root);
+        break;
+    }
+};
 
 Tree:: ~Tree() {
     deleting (root);
@@ -96,7 +129,7 @@ auto Tree:: add_node (int value) -> void {
     }
 }
 
-auto Tree:: delete_node (int value) -> bool {
+auto Tree:: remove (int value) -> bool {
     if ((root->right==nullptr)&& (root->left==nullptr) && (root->data==value)) {
         delete root;
         root= nullptr;
@@ -197,15 +230,20 @@ auto Tree:: save_tree_to_the_file_straight_detour (Node * curr, std::ostream &Fi
     if (curr->right!=nullptr) save_tree_to_the_file_straight_detour (curr->right,File);
 }
 
-auto Tree:: save_tree_to_the_file (std::string file_name) -> bool {
-    std::ofstream File(file_name);
+auto Tree:: save (const std::string& path) -> bool {
+    std::ifstream File1(path) ;
+    long file_size;
+    File1.seekg(0, std::ios::end);
+    file_size = File1.tellg();
+    File1.close();
+    std::ofstream File(path);
     std::string decision ="yes";
-    if (!File.is_open()) {
+    if (file_size!=-1) {
         std::cout << "Do you want to rewrite file? (yes/ no)" << std::endl;
         std::cin >> decision;
     }
     File.close();
-    File.open (file_name);
+    File.open (path);
     if ((decision == "y") || (decision == "yes") || (decision == "Y") ||
             (decision == "Yes") || (decision == "YES"))
     {
@@ -217,8 +255,31 @@ auto Tree:: save_tree_to_the_file (std::string file_name) -> bool {
     return true;
 }
 
-auto Tree:: download_tree_from_the_file (std::string file_name)->bool {
-    std::ifstream File(file_name);
+/*
+auto Tree:: save (const std::string& path) -> bool {
+    std::ofstream File(path);
+    std::string decision ="yes";
+    std::cout<< File.str()<<std::endl;
+    if (!File.eof()) {
+        std::cout << "Do you want to rewrite file? (yes/ no)" << std::endl;
+        std::cin >> decision;
+    }
+    File.close();
+    File.open (path);
+    if ((decision == "y") || (decision == "yes") || (decision == "Y") ||
+            (decision == "Yes") || (decision == "YES"))
+    {
+        save_tree_to_the_file_straight_detour (root,File);
+        File<< std::endl;
+        save_tree_to_the_file_recursion (root, 0, File);
+    }
+    File.close();
+    return true;
+}
+*/
+
+auto Tree:: load (const std::string& path)->bool {
+    std::ifstream File(path);
     if (!File.is_open()) return false;
     std::string tree_string;
     getline (File,tree_string);
@@ -227,14 +288,15 @@ auto Tree:: download_tree_from_the_file (std::string file_name)->bool {
         if (tree_string[i]==' ') elements_count++;
     }
     File.close();
-    File.open(file_name);
+    File.open(path);
     for (int i=0; i<elements_count; i++) {
         File >> tree_string;
         this->insert (atoi( tree_string.c_str()));
     }
+    File.close();
     return true;
 }
-auto Tree:: node_availability (int value) const -> bool {
+auto Tree:: exists (int value) const -> bool {
     Node * curr = root;
     while (curr!=nullptr) {
         if (curr->data==value) return true;
@@ -242,4 +304,15 @@ auto Tree:: node_availability (int value) const -> bool {
         else curr=curr->right;
     }
     return false;
+}
+
+auto Tree::for_operator (std::ostream& stream, Node * curr) -> void {
+    stream<< curr->data<< " ";
+    if (curr->left!=nullptr) for_operator (stream, curr->left);
+    if (curr->right!=nullptr) for_operator (stream, curr->right);
+}
+
+auto Tree::operator=(const Tree& tree) -> Tree& {
+    deleting(this->root);
+    copy(tree.root);
 }

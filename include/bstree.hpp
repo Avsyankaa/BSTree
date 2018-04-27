@@ -1,6 +1,8 @@
 #include <fstream>
 #include <string>
 #include <iostream>
+#include <initializer_list>
+#include <cstddef>
 namespace BSTree {
     struct Node {
         int data;
@@ -8,6 +10,7 @@ namespace BSTree {
         Node* right;
         Node(int val);
     };
+    enum class traversal_order {pre, in, post};
     class Tree {
         Node* root;
         auto print_elements(Node* curr, int space) const -> void;
@@ -17,20 +20,31 @@ namespace BSTree {
         auto transverse_detour(Node *curr) const -> void;
         auto save_tree_to_the_file_recursion (Node * curr, int  space, std::ostream &File) ->void;
         auto save_tree_to_the_file_straight_detour (Node * curr, std::ostream &File) -> void;
+        auto copy (Node * curr) -> void;
+        auto for_operator (std::ostream& stream, Node * curr) -> void;
 
         public:
         Tree();
+        Tree(std::initializer_list<int> list);
+        Tree(const Tree& tree);
         auto insert(int value) -> bool;
         auto print() const -> void;
-        auto straight() const -> void;
+        /*auto straight() const -> void;
         auto back() const -> void;
-        auto transverse() const -> void;
+        auto transverse() const -> void;*/
         auto empty() const -> bool;
         auto add_node (int value) -> void;
-        auto delete_node (int value) -> bool;
-        auto save_tree_to_the_file (std::string file_name) -> bool;
-        auto download_tree_from_the_file (std::string file_name)->bool;
-        auto node_availability (int value) const -> bool;
+        auto remove (int value) -> bool;
+        auto save (const std::string& path) -> bool ;
+        auto load (const std::string& path)->bool;
+        auto exists (int value) const -> bool;
+        auto print(traversal_order order) const -> void;
+        auto operator=(const Tree&) -> Tree&;
         ~Tree();
+        auto friend operator<<(std::ostream& stream, Tree& tree) -> std::ostream&
+        {
+            tree.for_operator (stream, tree.root);
+            return stream;
+        }
     };
 }

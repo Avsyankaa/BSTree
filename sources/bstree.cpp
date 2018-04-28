@@ -280,5 +280,5 @@ auto Tree::for_operator (std::ostream& stream, Node * curr) -> void {
 auto Tree::operator=(const Tree& tree) -> Tree& {
     deleting(this->root);
     copy(tree.root);
-    return tree;
+    return *&this;
 }

@@ -44,13 +44,13 @@ TEST_CASE("builder_3")
   std::ifstream in_file("file.txt");
   getline(in_file, result1);
   in_file.close();
-  std::ofstream out_file1("file.txt");
-  tree2.save("file.txt");
+  std::ofstream out_file1("file1.txt");
+  tree2.save("file1.txt");
   out_file1.close();
   
   std::string result2;
   
-  std::ifstream in_file1("file.txt");
+  std::ifstream in_file1("file1.txt");
   getline(in_file1, result2);
   in_file1.close();
   

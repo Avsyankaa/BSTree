@@ -3,7 +3,7 @@
 #include <string>
 #include <fstream>
 
-#include "BSTree.hpp"
+#include "bstree.hpp"
 using namespace BSTree;
 
 TEST_CASE("builder_1")

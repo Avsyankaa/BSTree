@@ -169,7 +169,6 @@ auto Tree:: remove (int value) -> bool {
                 if (curr->left==nullptr)  break;
             }
             value_new= curr->data;
-            std:: cout<< value_new<< std::endl;
             if ((parent->right!=nullptr) && (parent->right->data==value_new)) {
                 delete parent->right;
                 parent->right=nullptr;
@@ -190,13 +189,13 @@ auto Tree:: remove (int value) -> bool {
             return true;
         }
     }
-    std::cout<< parent_del->data<< std:: endl;
     if (parent_del->data> value)
         parent_del->left->data = value_new;
     if (parent_del->data < value)
         parent_del->right->data = value_new;
     if (parent_del->data==value)
         root->data= value_new;
+        return true;
 }
 
 auto Tree:: save_tree_to_the_file_recursion (Node * curr, int  space, std::ostream &File) ->void {
@@ -281,4 +280,5 @@ auto Tree::for_operator (std::ostream& stream, Node * curr) -> void {
 auto Tree::operator=(const Tree& tree) -> Tree& {
     deleting(this->root);
     copy(tree.root);
+    return tree;
 }

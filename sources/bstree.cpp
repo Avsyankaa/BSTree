@@ -225,7 +225,7 @@ auto Tree:: save (const std::string& path) -> bool {
     File1.close();
     std::ofstream File(path);
     std::string decision ="yes";
-    if ((file_size!=-1) && (file_size!=1))  {
+    if ((file_size!=-1) && (file_size!=0))  {
         std::cout << "Do you want to rewrite file? (yes/ no)" << std::endl;
         std::cin >> decision;
     }

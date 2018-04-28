@@ -1,4 +1,7 @@
 ## BSTree
+
+[![Build Status](https://travis-ci.org/Avsyankaa/BSTree.svg?branch=master)](https://travis-ci.org/Avsyankaa/BSTree)
+
 ## Запуск программы 
 ```ShellSession
 $ git clone https://github.com/Avsyankaa/BSTree

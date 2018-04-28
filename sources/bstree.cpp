@@ -79,29 +79,17 @@ auto Tree:: straight_detour (Node * curr) const -> void {
     if (curr->right!=nullptr) straight_detour (curr->right);
 }
 
-/*auto Tree:: straight () const ->void {
-    straight_detour (root);
-}*/
-
 auto Tree:: back_detour (Node * curr) const -> void {
     if (curr->left!=nullptr) back_detour (curr->left);
     if (curr->right!=nullptr) back_detour (curr->right);
     std::cout<< curr->data<<" ";
 }
 
-/*auto Tree:: back () const -> void {
-    back_detour (root);
-}*/
-
 auto Tree:: transverse_detour (Node * curr) const -> void {
     if (curr->left!=nullptr) transverse_detour (curr->left);
     std::cout<< curr->data<<" ";
     if (curr->right!=nullptr) transverse_detour (curr->right);
 }
-
-/*auto Tree:: transverse () const -> void {
-    transverse_detour (root);
-}*/
 
 auto Tree:: print(traversal_order order) const ->void {
 
@@ -116,7 +104,7 @@ auto Tree:: print(traversal_order order) const ->void {
         back_detour(root);
         break;
     }
-};
+}
 
 Tree:: ~Tree() {
     deleting (root);
@@ -255,29 +243,6 @@ auto Tree:: save (const std::string& path) -> bool {
     return true;
 }
 
-/*
-auto Tree:: save (const std::string& path) -> bool {
-    std::ofstream File(path);
-    std::string decision ="yes";
-    std::cout<< File.str()<<std::endl;
-    if (!File.eof()) {
-        std::cout << "Do you want to rewrite file? (yes/ no)" << std::endl;
-        std::cin >> decision;
-    }
-    File.close();
-    File.open (path);
-    if ((decision == "y") || (decision == "yes") || (decision == "Y") ||
-            (decision == "Yes") || (decision == "YES"))
-    {
-        save_tree_to_the_file_straight_detour (root,File);
-        File<< std::endl;
-        save_tree_to_the_file_recursion (root, 0, File);
-    }
-    File.close();
-    return true;
-}
-*/
-
 auto Tree:: load (const std::string& path)->bool {
     std::ifstream File(path);
     if (!File.is_open()) return false;
@@ -296,6 +261,7 @@ auto Tree:: load (const std::string& path)->bool {
     File.close();
     return true;
 }
+
 auto Tree:: exists (int value) const -> bool {
     Node * curr = root;
     while (curr!=nullptr) {

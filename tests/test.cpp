@@ -56,3 +56,20 @@ TEST_CASE("builder_3")
   
   REQUIRE(result1 == result2);
 }
+
+TEST_CASE("insert")
+{
+  Tree tree = {12, 4, 56, 78, 2};
+  tree.insert(5);
+  std::ofstream out_file("file.txt");
+  
+  tree.save("file.txt");
+  out_file.close();
+  
+  std::string result1;
+  std::string result2 = "12 4 2 5 56 78 ";
+  std::ifstream in_file("file.txt");
+  getline(in_file, result1);
+  
+  REQUIRE(result1 == result2);
+}
